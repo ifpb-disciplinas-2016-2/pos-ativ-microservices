@@ -1,0 +1,28 @@
+version: '2'
+services:
+  postgres:
+    container_name: ativ2-postgres-hospedagem
+    image: natarajan/db-hospedagem
+    build: ./postgres
+    ports:
+     - "5435:5432"
+    expose:
+     - 5435
+    volumes:
+     - postgres-volume-hospedagem:/var/lib/postgresql/data/
+  web:
+    container_name: ativ2-app-hospedagem
+    build: .
+    image: natarajan/hospedagem
+    ports:
+     - "8082:8080"
+     - "4950:4848"
+    links:
+     - "postgres:banco-hospedagem"
+networks:
+  default:
+    external:
+      name: hospedagem_default_ntw
+volumes:
+    postgres-volume-cliente:
+      driver: local
