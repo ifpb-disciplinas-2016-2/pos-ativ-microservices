@@ -1,12 +1,12 @@
-** Instituto Federal de Educação, Ciência e Tecnologia da Paraíba **
+**Instituto Federal de Educação, Ciência e Tecnologia da Paraíba**
 
-** Campus Cajazeiras **
+**Campus Cajazeiras**
 
-** Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas **
+**Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas**
 
-** Programação Orientada a Serviços**
+**Programação Orientada a Serviços**
 
-** Professor: Ricardo de Sousa Job **
+**Professor: Ricardo de Sousa Job**
 
 ### Atividade Avaliativa - Microservices RESTful
 
