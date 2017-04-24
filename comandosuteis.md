@@ -2,11 +2,11 @@
 
 1. Listar containers iniciados
 
-  `docker ps`
-  
+      `docker ps`
+
 2. Visualizar os logs de um container em específico em um comando:
 
-  `docker logs -f $(docker ps -q -f name=NOME_DO_CONTAINER)`
+      `docker logs -f $(docker ps -q -f name=NOME_DO_CONTAINER)`
 
   A opção `docker logs -f` permite a tela ficar presa do fluxo do log acompanhando assim que outras informações forem adiconadas. Se fornecermos apenas `docker logs`, o docker vai apenas mostrar o último *status* to log e voltar à linha de comando.
 
