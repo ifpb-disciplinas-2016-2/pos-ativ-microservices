@@ -43,7 +43,7 @@ public class ClienteResources {
     @GET
     @Path("/valida/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response validar(@PathParam("id") int id) {
+    public Response validar(@PathParam("id") Long id, @Context UriInfo info) {
         Cliente cliente = clienteService.buscar(id);
         
         /* 
@@ -55,7 +55,8 @@ public class ClienteResources {
             return Response.status(Status.NO_CONTENT).build();
         }
         
-        return Response.ok().build();
+        Link link = new ClienteLink(cliente, info).getCliente();
+        return Response.ok().entity(link).build();
     }
     
     @POST
@@ -75,18 +76,19 @@ public class ClienteResources {
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getClient(@PathParam("id") int id) {
+    public Response getClient(@PathParam("id") Long id) {
         Cliente cliente = clienteService.buscar(id);
         if (cliente == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        
         return Response.ok().entity(cliente).build();
     }
     
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON } )
-    public Response updateClient(@PathParam("id") int id, Cliente clienteAtualizado) throws URISyntaxException {
+    public Response updateClient(@PathParam("id") Long id, Cliente clienteAtualizado) throws URISyntaxException {
 
         clienteAtualizado.setId(id);
         Cliente clienteRetorno = clienteService.atualizar(clienteAtualizado);
@@ -104,7 +106,7 @@ public class ClienteResources {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteClient(@PathParam("id") int id) {
+    public Response deleteClient(@PathParam("id") Long id) {
 
         Cliente clienteRetorno = clienteService.buscar(id);
         if (clienteRetorno == null) {

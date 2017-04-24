@@ -2,6 +2,6 @@ FROM postgres
 MAINTAINER natarajan <natarajanrodrigues@gmail.com>
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD 12345
-ENV POSTGRES_DB cliente
+ENV POSTGRES_DB hospedagem
 COPY create.sql /docker-entrypoint-initdb.d/
 COPY insert.sql /docker-entrypoint-initdb.d/

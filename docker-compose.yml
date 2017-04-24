@@ -1,0 +1,50 @@
+version: '2'
+services:
+  postgres-cliente:
+    container_name: ativ2-postgres-cliente
+    image: natarajan/db-cliente
+    build: ./cliente-ws/postgres
+    ports:
+     - "5434:5432"
+    expose:
+     - 5434
+    volumes:
+     - postgres-volume-cliente:/var/lib/postgresql/data/
+  web-cliente:
+    container_name: ativ2-app-cliente
+    build: ./cliente-ws
+    image: natarajan/cliente
+    ports:
+     - "8081:8080"
+     - "4949:4848"
+    links:
+     - "postgres-cliente:banco-cliente"
+  postgres-hospedagem:
+    container_name: ativ2-postgres-hospedagem
+    image: natarajan/db-hospedagem
+    build: ./hospedagem-ws/postgres
+    ports:
+     - "5435:5432"
+    expose:
+     - 5435
+    volumes:
+     - postgres-volume-hospedagem:/var/lib/postgresql/data/
+  web-hospedagem:
+    container_name: ativ2-app-hospedagem
+    build: ./hospedagem-ws
+    image: natarajan/hospedagem
+    ports:
+     - "8082:8080"
+     - "4950:4848"
+    links:
+     - "postgres-hospedagem:banco-hospedagem"
+     - "web-cliente:cliente-resource"
+networks:
+  default:
+    external:
+      name: cliente_default_ntw
+volumes:
+    postgres-volume-cliente:
+      driver: local
+    postgres-volume-hospedagem:
+      driver: local

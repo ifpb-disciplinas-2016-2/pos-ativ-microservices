@@ -25,7 +25,7 @@ public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(generator = "cliente_seq", strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     
     @Column(unique = true)
@@ -41,18 +41,18 @@ public class Cliente implements Serializable {
         this.renda = renda;
     }
 
-    public Cliente(int id, String nome, String cpf, BigDecimal renda) {
+    public Cliente(Long id, String nome, String cpf, BigDecimal renda) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.renda = renda;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,7 +88,7 @@ public class Cliente implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + this.id;
+        hash = 83 * hash + Objects.hashCode(this.id);
         hash = 83 * hash + Objects.hashCode(this.nome);
         hash = 83 * hash + Objects.hashCode(this.cpf);
         hash = 83 * hash + Objects.hashCode(this.renda);

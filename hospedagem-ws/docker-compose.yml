@@ -22,7 +22,8 @@ services:
 networks:
   default:
     external:
-      name: hospedagem_default_ntw
+      # name: hospedagem_default_ntw
+      name: cliente_default_ntw
 volumes:
-    postgres-volume-cliente:
+    postgres-volume-hospedagem:
       driver: local

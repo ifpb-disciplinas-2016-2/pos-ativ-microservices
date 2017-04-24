@@ -3,6 +3,6 @@ MAINTAINER natarajan <natarajanrodrigues@gmail.com>
 ENV DOMAIN domain1
 ENV LIB /opt/payara41/glassfish/domains/${DOMAIN}/lib/
 ENV DEPLOY ${PAYARA_PATH}/glassfish/domains/${DOMAIN}/autodeploy/
-ADD target/cliente-ws/WEB-INF/lib/ ${LIB}
+ADD target/hospedagem-ws/WEB-INF/lib/ ${LIB}
 ENTRYPOINT $PAYARA_PATH/bin/asadmin start-domain --verbose ${DOMAIN}
-ADD target/cliente-ws.war  ${DEPLOY}
+ADD target/hospedagem-ws.war  ${DEPLOY}

@@ -30,7 +30,7 @@ public class ClienteService {
 
     }
 
-    public Cliente remover(int key) {
+    public Cliente remover(Long key) {
         Cliente cliente = this.buscar(key);
         em.remove(cliente);
         return cliente;
@@ -40,7 +40,7 @@ public class ClienteService {
         return em.merge(cliente);
     }
 
-    public Cliente buscar(int key) {
+    public Cliente buscar(Long key) {
         return em.find(Cliente.class, key);
     }
 
