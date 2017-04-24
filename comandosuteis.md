@@ -3,6 +3,7 @@
 1. Listar containers iniciados
 
   `docker ps`
+  
 2. Visualizar os logs de um container em específico em um comando:
 
   `docker logs -f $(docker ps -q -f name=NOME_DO_CONTAINER)`
