@@ -11,11 +11,11 @@
 
   A segunda parte (`$(docker ps -q -f name=NOME_DO_CONTAINER)`) pode ser explicada da seguinte forma:
 
-    - `docker ps` para listar os containers inicializados;
+  - `docker ps` para listar os containers inicializados;
 
-    - opção `-q` para mostrar apenas os IDs dos containers;
+  - opção `-q` para mostrar apenas os IDs dos containers;
 
-    - opção `-f name=` para **filtrar** os containers pelo nome.
+  - opção `-f name=` para **filtrar** os containers pelo nome.
 
 
   No caso do trabalho em questão, podemos acompanhar o log do container `ativ2-app-hospedagem` (que contém os recursos hotel e reserva de hotel) com o seguinte comando:
