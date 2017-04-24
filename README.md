@@ -8,7 +8,9 @@
 
 **Professor: Ricardo de Sousa Job**
 
-### Atividade Avaliativa - Microservices RESTful
+<h3 align="center">
+  Atividade Avaliativa - Microservices RESTful
+</h3>
 
 Implemente uma aplicação que dispõem quatro microservices: **hotel**, **passagem**, **agência** e **clientes**.
 
@@ -24,6 +26,7 @@ No serviço de **agência** deve fornecer um recurso que permite solicitar um pa
 Forma de entrega: um repositório na [organization](https://github.com/ifpb-disciplinas-2016-2).
 
 O projeto deve ser **implantado com o Docker** e deve conter **um roteiro** de como realizar a implantação da aplicação.
+
 Após a implementação, **encaminhar** um email com o link do repositório para o email sousajob@gmail.com.
 Prazo para entrega: **2 de maio de 2017, às 23h**.
 
