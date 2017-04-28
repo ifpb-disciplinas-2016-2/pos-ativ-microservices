@@ -58,6 +58,10 @@ Os recursos estão disponíveis da seguinte forma:
 | Cliente | http://localhost:8081/cliente-rs/cliente |
 | Hotel | http://localhost:8082/hospedagem-rs/hotel |
 | Reseva de Hotel | http://localhost:8082/hospedagem-rs/reserva |
+| Empresas de Passagens | http://localhost:8083/passagem-rs/empresa |
+| Reseva de Passagem | http://localhost:8083/passagem-rs/reserva |
+| Pacotes da Agência | http://localhost:8084/agencia-rs/pacote |
+
 
 
 <hr>
