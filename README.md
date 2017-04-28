@@ -77,6 +77,8 @@ Apesar da descrição do projeto solicitar as operações de CRUD de todas as en
 
 ##### Adicionar um cliente
 POST http://localhost:8081/cliente-rs/api/cliente/
+
+
 Body:
 ```
 {
@@ -85,6 +87,7 @@ Body:
 	"renda": "1000.00"
 }
 ```
+
 
 Resultado:
 ```
@@ -100,6 +103,7 @@ Resultado:
 
 ##### Consultar Clientes
 GET http://localhost:8081/cliente-rs/api/cliente/
+
 
 Resultado:
 ```
@@ -152,6 +156,8 @@ GET http://localhost:8082/hospedagem-rs/api/hotel/
 
 ##### Criar reserva para Hotel
 POST http://localhost:8082/hospedagem-rs/api/reserva/
+
+
 Resultado
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -162,6 +168,8 @@ Resultado
 
 ##### Inserir hotel de uma reserva de Hotel
 PUT http://localhost:8082/hospedagem-rs/api/reserva/1/hotel/1
+
+
 Resultado
 ```
 {
@@ -176,6 +184,8 @@ Resultado
 
 ##### Inserir cliente da reserva de Hotel
 PUT http://localhost:8082/hospedagem-rs/api/reserva/1/cliente/1
+
+
 Resultado
 ```
 {
@@ -209,6 +219,8 @@ GET http://localhost:8083/passagem-rs/api/empresa/1/
 
 ##### Criar reserva para passagem
 POST http://localhost:8083/passagem-rs/api/reserva/
+
+
 Resultado
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -219,6 +231,8 @@ Resultado
 
 ##### Informar a empresa de uma reserva de passagem
 PUT http://localhost:8083/passagem-rs/api/reserva/1/empresa/1
+
+
 Resultado
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -233,6 +247,8 @@ Resultado
 
 ##### Inserir cliente da reserva de Passagem
 PUT http://localhost:8083/passagem-rs/api/reserva/1/cliente/1
+
+
 Resultado
 ```
 {
@@ -250,6 +266,8 @@ Resultado
 
 ##### Criar um pacote
 POST http://localhost:8084/agencia-rs/api/pacote/
+
+
 Resultado
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -260,6 +278,8 @@ Resultado
 
 ##### Inserir o cliente de um pacote
 PUT http://localhost:8084/agencia-rs/api/pacote/7/cliente/2
+
+
 Resultado
 ```
 {
@@ -277,6 +297,8 @@ Resultado
 É necessário informar a empresa da reserva
 
 PUT http://localhost:8084/agencia-rs/api/pacote/7/passagem/1
+
+
 Resultado
 ```
 {
@@ -297,6 +319,8 @@ Resultado
 É necessário informar o hotel
 
 PUT http://localhost:8084/agencia-rs/api/pacote/7/hotel/2
+
+
 Resultado
 ```
 {
