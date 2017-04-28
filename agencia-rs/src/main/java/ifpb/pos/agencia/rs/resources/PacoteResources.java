@@ -1,13 +1,10 @@
 package ifpb.pos.agencia.rs.resources;
 
-import com.google.gson.Gson;
 import ifpb.pos.agencia.rs.entities.ErrorMessage;
 import ifpb.pos.agencia.rs.entities.Link;
 import ifpb.pos.agencia.rs.entities.LinkedPacote;
 import ifpb.pos.agencia.rs.entities.Pacote;
-import ifpb.pos.agencia.rs.entities.ReservaHotel;
 import ifpb.pos.agencia.rs.services.PacoteService;
-//import ifpb.pos.hospedagem.entities.ReservaHotel;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -139,13 +136,7 @@ public class PacoteResources {
             @PathParam("idCliente") String idCliente
             ){
              
-        Pacote pacote = pacoteService.buscar(new Long(idPacote));
-        
-        //validando o cliente
-//        Client cliente = ClientBuilder.newClient();
-//        WebTarget target = cliente.target("http://cliente-resource:8080/cliente-rs/api/cliente/valida/{id}")
-//                    .resolveTemplate("id", idCliente);
-        
+        Pacote pacote = pacoteService.buscar(new Long(idPacote));        
         Response resposta = validaCliente(new Long(idCliente));
         
         System.out.println("chegou a resposta sobre cliente");
@@ -184,17 +175,18 @@ public class PacoteResources {
         
         if (pacote != null && validaHotel.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
             //cria uma reserva para o hotel indicado
-            
-//            JsonObject reservaJSON = criarReservaHotel(idHotel).readEntity(JsonObject.class);            
-//            String jsonIdReserva = getJsonElement(reservaJSON, "id");
-            
+                        
             Response respostaCriarReserva = criarReservaHotel(idHotel);    
-            ReservaHotel reservaHotel = respostaCriarReserva.readEntity(ReservaHotel.class);
             
-            setClienteNaReserva(reservaHotel.getId(), pacote.getIdCliente());
-            Response responseReserva = setHotelNaReserva(reservaHotel.getId(), idHotel);
+            String reservaJSON = respostaCriarReserva.readEntity(String.class);
             
-            pacote.setReservaHotel(reservaHotel.getId());
+            JSONObject jsonObj = new JSONObject(reservaJSON);
+            Long idReserva = (Long) jsonObj.getLong("id");
+            
+            setClienteNaReserva(idReserva, pacote.getIdCliente());
+            Response responseReserva = setHotelNaReserva(idReserva, idHotel);
+            
+            pacote.setReservaHotel(idReserva);
             Pacote pacoteAtualizado = pacoteService.atualizar(pacote);
             LinkedPacote pacoteLinked = new LinkedPacote(pacoteAtualizado);
             return Response
@@ -267,24 +259,22 @@ public class PacoteResources {
     }
 
     private void setClienteNaReserva(Long idReserva, Long idCliente) {        
-        ReservaHotel reserva = new ReservaHotel();
-        reserva.setId(idReserva);
+        
         Response r = hotelWebtarget.path("reserva/{idReserva}/cliente/{idCliente}")
                 .resolveTemplate("idReserva", idReserva)
                 .resolveTemplate("idCliente", idCliente)
                 .request()
-                .put(Entity.json(reserva));
+                .put(Entity.json(new Link()));
     }
 
     private Response setHotelNaReserva(Long id, String idHotel) {        
-        ReservaHotel reserva = new ReservaHotel();
-        reserva.setId(id);
+        
         return hotelWebtarget
                 .path("reserva/{idReserva}/hotel/{idHotel}")
                 .resolveTemplate("idReserva", id.toString())
                 .resolveTemplate("idHotel", idHotel)
                 .request()
-                .put(Entity.json(reserva));
+                .put(Entity.json(new Link()));
     }
 
     private Response criarReservaPassagem() {
@@ -313,13 +303,5 @@ public class PacoteResources {
                 .put(Entity.json(new Link()));
     }
     
-    public String getJsonElement(String json, String element){
-        
-//        json.get(json)
-//        System.out.println("Objeto JSON: " + json.toString());
-//        Gson gson = new Gson();
-//        return gson.fromJson(json, JSONObject.class).get(element).getAsString();
-        return null;
-    }
     
 }
