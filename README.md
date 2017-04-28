@@ -55,6 +55,259 @@ Os recursos estão disponíveis da seguinte forma:
 
 | Recurso | URI |
 |----|-----|
-| Cliente | http://localhost:8081/cliente-ws/cliente |
-| Hotel | http://localhost:8082/hospedagem-ws/hotel |
-| Reseva de Hotel | http://localhost:8082/hospedagem-ws/reserva |
+| Cliente | http://localhost:8081/cliente-rs/cliente |
+| Hotel | http://localhost:8082/hospedagem-rs/hotel |
+| Reseva de Hotel | http://localhost:8082/hospedagem-rs/reserva |
+
+
+<hr>
+
+### Sobre o projeto:
+
+Apesar da descrição do projeto solicitar as operações de CRUD de todas as entidades, foi discutido em sala de aula que o objetivo principal é realizar a persistência através do microserviços. Por isso, as implementações das outras operações de CRUD podem não estar presentes ou incompletas para alguns microservicos (como por exemplo, no de agência).
+
+
+<hr>
+
+#### EXEMPLO PARA TESTE DA FUNÇÕES
+
+##### Adicionar um cliente
+POST http://localhost:8081/cliente-rs/api/cliente/
+Body:
+```
+{
+	"nome": "Natarajan",
+	"cpf": "007980",
+	"renda": "1000.00"
+}
+```
+
+Resultado:
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cliente>
+    <cpf>007980</cpf>
+    <id>4</id>
+    <nome>Natarajan</nome>
+    <renda>1000.00</renda>
+</cliente>
+
+```
+
+##### Consultar Clientes
+GET http://localhost:8081/cliente-rs/api/cliente/
+
+Resultado:
+```
+[
+  {
+    "cpf": "12345678900",
+    "id": 1,
+    "nome": "Kiko",
+    "renda": 2000
+  },
+  {
+    "cpf": "00000000001",
+    "id": 2,
+    "nome": "Chaves",
+    "renda": 200
+  },
+  {
+    "cpf": "12312312344",
+    "id": 3,
+    "nome": "Natarajan",
+    "renda": 1000
+  },
+  {
+    "cpf": "007980",
+    "id": 4,
+    "nome": "Natarajan",
+    "renda": 1000
+  }
+]
+
+```
+
+
+
+##### Consultar Hotéis
+
+GET http://localhost:8082/hospedagem-rs/api/hotel/
+```
+[
+  {
+    "id": 1,
+    "nome": "Ibis Hotel JP"
+  },
+  {
+    "id": 2,
+    "nome": "Jardins Plaza Hotel"
+  }
+]
+```
+
+##### Criar reserva para Hotel
+POST http://localhost:8082/hospedagem-rs/api/reserva/
+Resultado
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reservaHotel>
+    <id>1</id>
+</reservaHotel>
+```
+
+##### Inserir hotel de uma reserva de Hotel
+PUT http://localhost:8082/hospedagem-rs/api/reserva/1/hotel/1
+Resultado
+```
+{
+  "id": 1,
+  "cliente": null,
+  "hotel": {
+    "rel": "hotel",
+    "href": "http://localhost:8082/hospedagem-rs/api/hotel/1"
+  }
+}
+```
+
+##### Inserir cliente da reserva de Hotel
+PUT http://localhost:8082/hospedagem-rs/api/reserva/1/cliente/1
+Resultado
+```
+{
+  "cliente": {
+    "href": "http://localhost:8081/cliente-ws/api/cliente/1",
+    "rel": "cliente"
+  },
+  "hotel": {
+    "href": "http://localhost:8082/hospedagem-rs/api/hotel/1",
+    "rel": "hotel"
+  },
+  "id": 1
+}
+```
+
+
+##### Consultar Empresas de Passagem
+GET http://localhost:8083/passagem-rs/api/empresa/1/
+```
+[
+  {
+    "id": 1,
+    "nome": "Guanabara"
+  },
+  {
+    "id": 2,
+    "nome": "Gontijo"
+  }
+]
+```
+
+##### Criar reserva para passagem
+POST http://localhost:8083/passagem-rs/api/reserva/
+Resultado
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reservaPassagem>
+    <id>1</id>
+</reservaPassagem>
+```
+
+##### Informar a empresa de uma reserva de passagem
+PUT http://localhost:8083/passagem-rs/api/reserva/1/empresa/1
+Resultado
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reservaPassagem>
+    <empresa>
+        <id>1</id>
+        <nome>Guanabara</nome>
+    </empresa>
+    <id>1</id>
+</reservaPassagem>
+```
+
+##### Inserir cliente da reserva de Passagem
+PUT http://localhost:8083/passagem-rs/api/reserva/1/cliente/1
+Resultado
+```
+{
+  "cliente": {
+    "href": "http://localhost:8081/cliente-ws/api/cliente/1",
+    "rel": "cliente"
+  },
+  "empresa": {
+    "href": "http://localhost:8083/passagem-rs/api/empresa/1",
+    "rel": "empresa"
+  },
+  "id": 1
+}
+```
+
+##### Criar um pacote
+POST http://localhost:8084/agencia-rs/api/pacote/
+Resultado
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pacote>
+    <id>7</id>
+</pacote>
+```
+
+##### Inserir o cliente de um pacote
+PUT http://localhost:8084/agencia-rs/api/pacote/7/cliente/2
+Resultado
+```
+{
+  "cliente": {
+    "href": "http://localhost:8081/cliente-rs/api/cliente/2",
+    "rel": "cliente"
+  },
+  "id": 7
+}
+```
+
+
+##### Criar uma reserva de passagem no pacote
+
+É necessário informar a empresa da reserva
+
+PUT http://localhost:8084/agencia-rs/api/pacote/7/passagem/1
+Resultado
+```
+{
+  "cliente": {
+    "href": "http://localhost:8081/cliente-rs/api/cliente/2",
+    "rel": "cliente"
+  },
+  "id": 7,
+  "reservaPassagem": {
+    "href": "http://localhost:8083/passagem-rs/api/reserva/4",
+    "rel": "reservaHotel"
+  }
+}
+```
+
+##### Criar uma reserva de hotel no pacote
+
+É necessário informar o hotel
+
+PUT http://localhost:8084/agencia-rs/api/pacote/7/hotel/2
+Resultado
+```
+{
+  "cliente": {
+    "href": "http://localhost:8081/cliente-rs/api/cliente/2",
+    "rel": "cliente"
+  },
+  "id": 7,
+  "reservaHotel": {
+    "href": "http://localhost:8082/hospedagem-rs/api/reserva/2",
+    "rel": "reservaHotel"
+  },
+  "reservaPassagem": {
+    "href": "http://localhost:8083/passagem-rs/api/reserva/4",
+    "rel": "reservaHotel"
+  }
+}
+```

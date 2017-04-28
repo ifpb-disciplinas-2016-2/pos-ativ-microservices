@@ -1,9 +1,10 @@
 version: '2'
 services:
+  # SERVICOS DO CLIENTE
   postgres-cliente:
     container_name: ativ2-postgres-cliente
     image: natarajan/db-cliente
-    build: ./cliente-ws/postgres
+    build: ./cliente-rs/postgres
     ports:
      - "5434:5432"
     expose:
@@ -12,17 +13,19 @@ services:
      - postgres-volume-cliente:/var/lib/postgresql/data/
   web-cliente:
     container_name: ativ2-app-cliente
-    build: ./cliente-ws
+    build: ./cliente-rs
     image: natarajan/cliente
     ports:
      - "8081:8080"
      - "4949:4848"
     links:
      - "postgres-cliente:banco-cliente"
+
+  # SERVICOS DE HOSPEDAGEM
   postgres-hospedagem:
     container_name: ativ2-postgres-hospedagem
     image: natarajan/db-hospedagem
-    build: ./hospedagem-ws/postgres
+    build: ./hospedagem-rs/postgres
     ports:
      - "5435:5432"
     expose:
@@ -31,7 +34,7 @@ services:
      - postgres-volume-hospedagem:/var/lib/postgresql/data/
   web-hospedagem:
     container_name: ativ2-app-hospedagem
-    build: ./hospedagem-ws
+    build: ./hospedagem-rs
     image: natarajan/hospedagem
     ports:
      - "8082:8080"
@@ -39,6 +42,53 @@ services:
     links:
      - "postgres-hospedagem:banco-hospedagem"
      - "web-cliente:cliente-resource"
+
+  # SERVICOS DE PASSAGEM
+  postgres-passagem:
+    container_name: ativ2-postgres-passagem
+    image: natarajan/db-passagem
+    build: ./passagem-rs/postgres
+    ports:
+     - "5436:5432"
+    expose:
+     - 5436
+    volumes:
+     - postgres-volume-passagem:/var/lib/postgresql/data/
+  web-passagem:
+    container_name: ativ2-app-passagem
+    build: ./passagem-rs
+    image: natarajan/passagem
+    ports:
+     - "8083:8080"
+     - "4951:4848"
+    links:
+     - "postgres-passagem:banco-passagem"
+     - "web-cliente:cliente-resource"
+
+  # SERVICOS DE AGENCIA
+  postgres-agencia:
+    container_name: ativ2-postgres-agencia
+    image: natarajan/db-agencia
+    build: ./agencia-rs/postgres
+    ports:
+     - "5437:5432"
+    expose:
+     - 5437
+    volumes:
+     - postgres-volume-agencia:/var/lib/postgresql/data/
+  web-agencia:
+    container_name: ativ2-app-agencia
+    build: ./agencia-rs
+    image: natarajan/agencia
+    ports:
+     - "8084:8080"
+     - "4952:4848"
+    links:
+     - "postgres-agencia:banco-agencia"
+     - "web-cliente:cliente-resource"
+     - "web-passagem:passagem-resource"
+     - "web-hospedagem:hospedagem-resource"
+
 networks:
   default:
     external:
@@ -47,4 +97,8 @@ volumes:
     postgres-volume-cliente:
       driver: local
     postgres-volume-hospedagem:
+      driver: local
+    postgres-volume-passagem:
+      driver: local
+    postgres-volume-agencia:
       driver: local
